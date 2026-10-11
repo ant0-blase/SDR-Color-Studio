@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.sdr-color-studio" path="/org/gnome/shell/extensions/sdr-color-studio/">
+    <key name="language" type="s">
+      <default>'system'</default>
+      <summary>Interface language (system or a supported locale)</summary>
+    </key>
+    <key name="enabled" type="b">
+      <default>true</default>
+      <summary>Activer les réglages colorimétriques</summary>
+    </key>
+    <key name="protect-fullscreen" type="b">
+      <default>true</default>
+      <summary>Suspendre les effets de couleur quand une fenêtre est en plein écran</summary>
+      <description>Les fenêtres HDR en plein écran restent sans traitement de couleur par l'extension. Les contenus HDR fenêtrés ne sont pas identifiés automatiquement.</description>
+    </key>
+    <key name="monitor-profiles" type="s">
+      <default>'{}'</default>
+      <summary>Paramètres par connecteur d'écran, encodés en JSON</summary>
+    </key>
+  </schema>
+</schemalist>

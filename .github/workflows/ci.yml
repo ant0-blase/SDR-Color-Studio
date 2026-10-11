@@ -1,0 +1,31 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependencies for static tests
+        run: sudo apt-get update && sudo apt-get install -y libglib2.0-bin shellcheck ffmpeg
+      - name: Static checks
+        run: bash tests/smoke.sh
+      - name: HDR10 encoded test metadata (ffmpeg/libx265)
+        run: |
+          python3 app/hdr10_patterns.py --output /tmp/sdr-studio-hdr10-test.mp4 --width 128 --height 128 --fps 2 --seconds-per-step 0.5
+          ffprobe -v error -select_streams v:0 -show_entries stream=pix_fmt,color_space,color_transfer,color_primaries -of default=noprint_wrappers=1 /tmp/sdr-studio-hdr10-test.mp4 | tee /tmp/video-metadata.txt
+          grep -qx 'pix_fmt=yuv420p10le' /tmp/video-metadata.txt
+          grep -qx 'color_transfer=smpte2084' /tmp/video-metadata.txt
+          grep -qx 'color_primaries=bt2020' /tmp/video-metadata.txt
+      - name: ShellCheck
+        run: shellcheck --severity=error ./*.sh tests/*.sh
+      - name: Upstream Mutter 51.0 patch anchor
+        run: |
+          curl -fsSLo upstream.c https://raw.githubusercontent.com/GNOME/mutter/51.0/src/backends/meta-backlight-ref-white.c
+          mkdir -p test-root/src/backends
+          mv upstream.c test-root/src/backends/meta-backlight-ref-white.c
+          patch --dry-run --fuzz=0 -p1 -d test-root -i "$PWD/patches/mutter-51-sdr-white-1624.patch"

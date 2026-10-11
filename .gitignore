@@ -1,0 +1,18 @@
+# Build/download caches, binaries, credentials
+work/
+packages/
+*.pkg.tar.*
+*.sig
+*.tar.gz
+*.sha256
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+*.mp4
+!assets/hdr10-reference-steps.mp4

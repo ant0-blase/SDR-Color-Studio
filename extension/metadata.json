@@ -1,0 +1,9 @@
+{
+  "uuid": "sdr-color-studio@local",
+  "name": "SDR Color Studio",
+  "description": "GNOME 51 per-monitor white reference, color adjustments, HDR10 test patterns, fullscreen protection (experimental)",
+  "shell-version": [
+    "51"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.sdr-color-studio"
+}
